@@ -1,30 +1,61 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import { ref } from 'vue'
+
+// Daftar kegiatan (to-do)
+const todos = ref([
+  { id: 1, text: 'Belajar VueJS', done: false },
+  { id: 2, text: 'Kerjakan UTS PBK', done: true },
+  { id: 3, text: 'Deploy ke Netlify', done: false }
+])
 </script>
 
 <template>
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
+  <main class="app-container">
+    <h1>📋 Daftar Kegiatan</h1>
+
+    <ul class="todo-list">
+      <li v-for="todo in todos" :key="todo.id" :class="{ done: todo.done }">
+        {{ todo.text }}
+      </li>
+    </ul>
+  </main>
 </template>
 
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+.app-container {
+  max-width: 600px;
+  margin: auto;
+  padding: 2rem;
+  font-family: 'Segoe UI', sans-serif;
+  background: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+
+h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 1.5rem;
 }
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+
+.todo-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.todo-list li {
+  background: white;
+  margin: 0.5rem 0;
+  padding: 1rem;
+  border-radius: 8px;
+  transition: 0.2s ease;
+  border-left: 5px solid #42b883;
+}
+
+.todo-list li.done {
+  text-decoration: line-through;
+  color: #999;
+  background-color: #e8e8e8;
+  border-left-color: #888;
 }
 </style>
