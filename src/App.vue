@@ -1,12 +1,8 @@
 <script setup>
 import { ref } from 'vue'
 
-// Daftar kegiatan (to-do)
-const todos = ref([
-  { id: 1, text: 'Belajar VueJS', done: false },
-  { id: 2, text: 'Kerjakan UTS PBK', done: true },
-  { id: 3, text: 'Deploy ke Netlify', done: false }
-])
+// Daftar kegiatan (kosong saat awal)
+const todos = ref([])
 
 // Input dari user
 const newTodo = ref('')
@@ -42,7 +38,8 @@ const removeTodo = (id) => {
     <!-- Daftar Kegiatan -->
     <ul class="todo-list">
       <li v-for="todo in todos" :key="todo.id" :class="{ done: todo.done }">
-        {{ todo.text }}
+        <input type="checkbox" v-model="todo.done" class="checkbox" />
+        <span class="todo-text">{{ todo.text }}</span>
         <button class="delete-btn" @click="removeTodo(todo.id)">Hapus</button>
       </li>
     </ul>
@@ -106,9 +103,10 @@ button:hover {
   padding: 1rem;
   border-radius: 8px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   border-left: 5px solid #42b883;
+  transition: background 0.2s;
+  gap: 0.75rem;
 }
 
 .todo-list li.done {
@@ -116,6 +114,16 @@ button:hover {
   color: #999;
   background-color: #e8e8e8;
   border-left-color: #888;
+}
+
+.todo-text {
+  flex-grow: 1;
+}
+
+.checkbox {
+  width: 1.2rem;
+  height: 1.2rem;
+  accent-color: #42b883;
 }
 
 .delete-btn {
