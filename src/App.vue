@@ -11,7 +11,7 @@ const todos = ref([
 // Input dari user
 const newTodo = ref('')
 
-// Fungsi untuk menambahkan kegiatan
+// Fungsi menambah kegiatan
 const addTodo = () => {
   if (newTodo.value.trim() !== '') {
     todos.value.push({
@@ -21,6 +21,11 @@ const addTodo = () => {
     })
     newTodo.value = ''
   }
+}
+
+// Fungsi menghapus kegiatan
+const removeTodo = (id) => {
+  todos.value = todos.value.filter(todo => todo.id !== id)
 }
 </script>
 
@@ -38,6 +43,7 @@ const addTodo = () => {
     <ul class="todo-list">
       <li v-for="todo in todos" :key="todo.id" :class="{ done: todo.done }">
         {{ todo.text }}
+        <button class="delete-btn" @click="removeTodo(todo.id)">Hapus</button>
       </li>
     </ul>
   </main>
@@ -99,7 +105,9 @@ button:hover {
   margin: 0.5rem 0;
   padding: 1rem;
   border-radius: 8px;
-  transition: 0.2s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   border-left: 5px solid #42b883;
 }
 
@@ -108,5 +116,19 @@ button:hover {
   color: #999;
   background-color: #e8e8e8;
   border-left-color: #888;
+}
+
+.delete-btn {
+  background-color: #ff4d4d;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background-color: #e60000;
 }
 </style>
