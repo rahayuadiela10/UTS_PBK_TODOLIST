@@ -7,10 +7,10 @@ const todos = ref([])
 // Input dari user
 const newTodo = ref('')
 
-// Filter toggle: true = hanya tampilkan yang belum selesai
+// Filter toggle
 const showIncompleteOnly = ref(false)
 
-// Fungsi menambah kegiatan
+// Tambah kegiatan
 const addTodo = () => {
   if (newTodo.value.trim() !== '') {
     todos.value.push({
@@ -22,12 +22,12 @@ const addTodo = () => {
   }
 }
 
-// Fungsi menghapus kegiatan
+// Hapus kegiatan
 const removeTodo = (id) => {
   todos.value = todos.value.filter(todo => todo.id !== id)
 }
 
-// Daftar kegiatan yang difilter
+// Filter kegiatan
 const filteredTodos = computed(() => {
   return showIncompleteOnly.value
     ? todos.value.filter(todo => !todo.done)
@@ -39,19 +39,19 @@ const filteredTodos = computed(() => {
   <main class="app-container">
     <h1>📋 Daftar Kegiatan</h1>
 
-    <!-- Form Tambah Kegiatan -->
+    <!-- Form -->
     <div class="form-group">
       <input v-model="newTodo" type="text" placeholder="Tambah kegiatan baru..." />
       <button @click="addTodo">Tambah</button>
     </div>
 
-    <!-- Filter Checkbox -->
+    <!-- Filter -->
     <div class="filter-group">
       <input type="checkbox" id="filter-incomplete" v-model="showIncompleteOnly" />
       <label for="filter-incomplete">Tampilkan yang belum selesai saja</label>
     </div>
 
-    <!-- Daftar Kegiatan -->
+    <!-- Daftar -->
     <ul class="todo-list">
       <li v-for="todo in filteredTodos" :key="todo.id" :class="{ done: todo.done }">
         <input type="checkbox" v-model="todo.done" class="checkbox" />
@@ -65,20 +65,32 @@ const filteredTodos = computed(() => {
   </main>
 </template>
 
+<!-- 🌍 Global style untuk body & background -->
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  background: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1600&q=80') no-repeat center center fixed;
+  background-size: cover;
+  font-family: 'Segoe UI', sans-serif;
+}
+</style>
+
+<!-- 🎨 Scoped style untuk komponen -->
 <style scoped>
 .app-container {
-  max-width: 600px;
-  margin: auto;
+  max-width: 700px;
+  margin: 3rem auto;
   padding: 2rem;
-  font-family: 'Segoe UI', sans-serif;
-  background: #f9f9f9;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(10px);
 }
 
 h1 {
   text-align: center;
-  color: #333;
+  color: #2c3e50;
   margin-bottom: 1.5rem;
 }
 
@@ -103,6 +115,7 @@ input[type="text"] {
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 1rem;
+  background: #fefefe;
 }
 
 button {
