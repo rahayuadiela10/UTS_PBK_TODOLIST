@@ -39,7 +39,10 @@ const removeTodo = (id) => {
     <ul class="todo-list">
       <li v-for="todo in todos" :key="todo.id" :class="{ done: todo.done }">
         <input type="checkbox" v-model="todo.done" class="checkbox" />
-        <span class="todo-text">{{ todo.text }}</span>
+        <span class="todo-text">
+          {{ todo.text }}
+          <span v-if="todo.done" class="done-label">✅ Selesai</span>
+        </span>
         <button class="delete-btn" @click="removeTodo(todo.id)">Hapus</button>
       </li>
     </ul>
@@ -118,6 +121,13 @@ button:hover {
 
 .todo-text {
   flex-grow: 1;
+}
+
+.done-label {
+  margin-left: 0.5rem;
+  font-size: 0.85rem;
+  color: #42b883;
+  font-weight: bold;
 }
 
 .checkbox {
