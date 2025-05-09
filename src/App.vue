@@ -1,11 +1,14 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
-// Daftar kegiatan (kosong saat awal)
+// Daftar kegiatan
 const todos = ref([])
 
 // Input dari user
 const newTodo = ref('')
+
+// Filter toggle: true = hanya tampilkan yang belum selesai
+const showIncompleteOnly = ref(false)
 
 // Fungsi menambah kegiatan
 const addTodo = () => {
@@ -23,6 +26,13 @@ const addTodo = () => {
 const removeTodo = (id) => {
   todos.value = todos.value.filter(todo => todo.id !== id)
 }
+
+// Daftar kegiatan yang difilter
+const filteredTodos = computed(() => {
+  return showIncompleteOnly.value
+    ? todos.value.filter(todo => !todo.done)
+    : todos.value
+})
 </script>
 
 <template>
@@ -35,9 +45,15 @@ const removeTodo = (id) => {
       <button @click="addTodo">Tambah</button>
     </div>
 
+    <!-- Filter Checkbox -->
+    <div class="filter-group">
+      <input type="checkbox" id="filter-incomplete" v-model="showIncompleteOnly" />
+      <label for="filter-incomplete">Tampilkan yang belum selesai saja</label>
+    </div>
+
     <!-- Daftar Kegiatan -->
     <ul class="todo-list">
-      <li v-for="todo in todos" :key="todo.id" :class="{ done: todo.done }">
+      <li v-for="todo in filteredTodos" :key="todo.id" :class="{ done: todo.done }">
         <input type="checkbox" v-model="todo.done" class="checkbox" />
         <span class="todo-text">
           {{ todo.text }}
@@ -69,8 +85,16 @@ h1 {
 .form-group {
   display: flex;
   gap: 0.5rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   justify-content: center;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 1.5rem;
 }
 
 input[type="text"] {
